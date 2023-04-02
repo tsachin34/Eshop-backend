@@ -15,4 +15,21 @@ router.get("/getallproducts", async (req, res) => {
   }
 });
 
+router.post("/getproductbyid", async (req, res) => {
+  const productid = req.body.productid;
+  console.log(productid)
+
+  try {
+    const product = await Product.findOne({ _id: productid });
+    if (product) {
+      return res.send({ success: true, data: product });
+    } else {
+      return res.status(404).json({ message: "Product not found." });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error." });
+  }
+});
+
 module.exports = router;
